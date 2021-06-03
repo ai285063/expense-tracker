@@ -1,0 +1,51 @@
+[
+  {
+    "name": "早餐",
+    "category": "餐飲食品",
+    "date": "2020-10-28",
+    "amount": 30,
+    "merchant": "永和豆漿"
+  },
+  {
+    "name": "宵夜",
+    "category": "餐飲食品",
+    "date": "2020-11-18",
+    "amount": 1390,
+    "merchant": "紅點桌邊飲"
+  },
+  {
+    "name": "美甲",
+    "category": "其他",
+    "date": "2021-04-11",
+    "amount": 1200,
+    "merchant": "JJ's Studio"
+  },
+  {
+    "name": "看電影",
+    "category": "休閒娛樂",
+    "date": "2021-05-15",
+    "amount": 250,
+    "merchant": "信義威秀"
+  },
+  {
+    "name": "水費",
+    "category": "家居物業",
+    "date": "2021-03-19",
+    "amount": 887,
+    "merchant": "台北自來水公司"
+  },
+  {
+    "name": "回家",
+    "category": "交通出行",
+    "date": "2021-02-13",
+    "amount": 700,
+    "merchant": "高鐵"
+  },
+  {
+    "name": "跟朋友吃飯",
+    "category": "餐飲食品",
+    "date": "2020-07-05",
+    "amount": 380,
+    "merchant": "貳樓"
+  }
+]
