@@ -37,4 +37,19 @@ router.get('/:id/edit', async (req, res) => {
   }
 })
 
+router.put('/:id', async (req, res) => {
+  try {
+    const _id = req.params.id
+    const edited = req.body
+    await Record.findOne({ _id })
+      .then(record => {
+        record = Object.assign(record, edited)
+        return record.save()
+      })
+    return res.redirect('/')
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 module.exports = router

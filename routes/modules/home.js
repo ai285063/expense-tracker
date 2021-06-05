@@ -6,6 +6,7 @@ const Record = require('../../models/record')
 
 router.get('/', async (req, res) => {
   try {
+    const totalAmount = 0
     const [categories, records] = await Promise.all([Category.find().lean(), Record.find().lean()])
     return res.render('index', { categories, records })
   } catch (err) {
