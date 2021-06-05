@@ -46,9 +46,9 @@
             </td>
             <td>
               <div class="d-md-flex justify-content-around">
-                <a href="/records/{{this._id}}/edit" class="btn btn-outline-info">Edit</a>
-                <form action="" method="POST">
-                  <button type="submit" class="btn btn-danger">Delete</button>
+                <a href="/records/{{ this._id }}/edit" class="btn btn-outline-info">Edit</a>
+                <form action="/records/{{ this._id }}?_method=DELETE" method="POST">
+                  <button type="submit" class="btn btn-danger" onclick="return confirm(`確定要刪除 {{this.name}} 嗎?`);">Delete</button>
                 </form>
               </div>
             </td>

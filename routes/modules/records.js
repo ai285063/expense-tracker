@@ -5,6 +5,7 @@ const { validationResult } = require('express-validator')
 const Category = require('../../models/category')
 const Record = require('../../models/record')
 const { validateRecord } = require('../../middleware/validator')
+const record = require('../../models/record')
 
 router.get('/new', (req, res) => {
   Category.find()
@@ -47,6 +48,17 @@ router.put('/:id', async (req, res) => {
         return record.save()
       })
     return res.redirect('/')
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const _id = req.params.id
+    await Record.findOne({ _id })
+      .then(record => record.remove())
+      .then(() => res.redirect('/'))
   } catch (err) {
     console.log(err)
   }
