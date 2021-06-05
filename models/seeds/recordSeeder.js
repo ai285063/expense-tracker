@@ -1,5 +1,4 @@
 const Record = require('../record')
-const Category = require('../category')
 const db = require('../../config/mongoose')
 const data = require('./records.json')
 
