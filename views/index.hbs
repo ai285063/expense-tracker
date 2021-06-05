@@ -30,13 +30,19 @@
           {{#each records}}
           <tr class="align-middle">
             <td class="text-center">
-              <i class="{{#eq this.name ../categories.name}} {{../categories.icon}} {{/eq}}"></i>
+              <i class="{{#forEach ../categories}} {{#eq name ../this.category}} {{icon}} fa-2x {{/eq}} {{/forEach}}"></i>
             </td>
             <td>
-              <h3>{{this.name}}</h3>
+              <div>
+                <h3>{{this.name}}</h3>
+                <i class="fas fa-map-marker-alt"><small> {{this.merchant}}</small></i><br>
+                <i class="far fa-calendar-alt"><small> {{this.date}}</small></i>
+              </div>
             </td>
-            <td>
-              <h2>{{this.amount}}</h2>
+            <td class="">
+              <div class="d-flex justify-content-center">
+                <h2>{{this.amount}}</h2>
+              </div>
             </td>
             <td>
               <div class="d-md-flex justify-content-around">
