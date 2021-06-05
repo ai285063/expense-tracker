@@ -5,7 +5,6 @@ const { validationResult } = require('express-validator')
 const Category = require('../../models/category')
 const Record = require('../../models/record')
 const { validateRecord } = require('../../middleware/validator')
-const record = require('../../models/record')
 
 router.get('/new', (req, res) => {
   Category.find()
