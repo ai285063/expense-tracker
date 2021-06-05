@@ -10,11 +10,8 @@ router.get('/', async (req, res) => {
     const [categories, records] = await Promise.all([Category.find().lean(), Record.find().lean()])
     const dates = []
     for (let i = 0; i < records.length; i++) {
-      dates[i] = new Date(records[i].date)
-      const d = dates[i].getDate()
-      const m = dates[i].getMonth() + 1
-      const y = dates[i].getFullYear()
-      records[i].date = `${y}-${m}-${d}`
+      dates[i] = new Date(records[i].date).toISOString().substring(0, 10)
+      records[i].date = dates[i]
       totalAmount += records[i].amount
     }
     return res.render('index', { categories, records, totalAmount })

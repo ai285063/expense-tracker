@@ -31,6 +31,7 @@ router.get('/:id/edit', async (req, res) => {
   try {
     const _id = req.params.id
     const [categories, record] = await Promise.all([Category.find().lean(), Record.findOne({ _id }).lean()])
+    record.date = new Date(record.date).toISOString().substring(0, 10)
     return res.render('edit', { categories, record })
   } catch (err) {
     console.log(err)
