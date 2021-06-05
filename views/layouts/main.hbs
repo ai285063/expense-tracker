@@ -15,8 +15,14 @@
     <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
       <div class="container">
         <a class="navbar-brand" href="/">
+          {{#if isAuthenticated}}{{ user.name}}'s {{/if}}
           家庭記帳本
         </a>
+        {{#if isAuthenticated}}
+        <a href="/users/logout" class="btn btn-outline-primary">Logout</a>
+        {{else}}
+        <a href="/users/login" class="btn btn-outline-primary">Login</a>
+        {{/if}}
       </div>
     </nav>
   </header>
