@@ -5,13 +5,14 @@ const Category = require('../../models/category')
 const Record = require('../../models/record')
 
 router.get('/', async (req, res) => {
+  const userId = req.user._id
   const categoryChosen = req.query.category
   const monthChosen = req.query.month
   try {
     let totalAmount = 0
     const [categories, records] = await Promise.all([Category.find().lean(),
       Record.aggregate([
-        { $match: { $and: [getCategory(categoryChosen), getMonth(monthChosen)] } }
+        { $match: { $and: [getCategory(categoryChosen), getMonth(monthChosen), { userId }] } }
       ])
     ])
     const dates = []

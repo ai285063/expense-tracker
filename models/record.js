@@ -22,13 +22,13 @@ const recordSchema = new Schema({
   merchant: {
     type: String,
     required: true
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    index: true
   }
-  // userId: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Users',
-  //   required: true,
-  //   index: true
-  // }
 })
 
 module.exports = mongoose.model('record', recordSchema)

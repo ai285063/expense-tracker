@@ -12,15 +12,16 @@ router.get('/new', (req, res) => {
     .then(results => res.render('new', { categories: results }))
 })
 
-router.post('/', validateRecord, async (req, res) => {
-  const newRecord = req.body
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    const categories = await Category.find().lean()
-    return res.status(400).render('new', { categories, newRecord, errorMsg: errors.array() })
-  }
+router.post('/', async (req, res) => {
+  // const errors = validationResult(req)
+  // if (!errors.isEmpty()) {
+  //   const categories = await Category.find().lean()
+  //   return res.status(400).render('new', { categories, newRecord, errorMsg: errors.array() })
+  // }
   try {
-    await Record.create(newRecord)
+    const userId = req.user._id
+    const newRecord = req.body
+    await Record.create(Object.assign(newRecord, { userId }))
     return res.redirect('/')
   } catch (err) {
     console.log(err)
@@ -29,8 +30,9 @@ router.post('/', validateRecord, async (req, res) => {
 
 router.get('/:id/edit', async (req, res) => {
   try {
+    const userId = req.user._id
     const _id = req.params.id
-    const [categories, record] = await Promise.all([Category.find().lean(), Record.findOne({ _id }).lean()])
+    const [categories, record] = await Promise.all([Category.find().lean(), Record.findOne({ _id, userId }).lean()])
     record.date = new Date(record.date).toISOString().substring(0, 10)
     return res.render('edit', { categories, record })
   } catch (err) {
@@ -40,9 +42,10 @@ router.get('/:id/edit', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
+    const userId = req.user._id
     const _id = req.params.id
     const edited = req.body
-    await Record.findOne({ _id })
+    await Record.findOne({ _id, userId })
       .then(record => {
         record = Object.assign(record, edited)
         return record.save()
@@ -55,8 +58,9 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
+    const userId = req.user._id
     const _id = req.params.id
-    await Record.findOne({ _id })
+    await Record.findOne({ _id, userId })
       .then(record => record.remove())
       .then(() => res.redirect('/'))
   } catch (err) {
