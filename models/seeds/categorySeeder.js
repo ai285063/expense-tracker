@@ -7,7 +7,7 @@ db.once('open', async () => {
     for (const categories of data) {
       await Category.create(categories)
     }
-    console.log('Category seeder load done.')
+    console.log('Categories seeder load done.')
     process.exit()
   } catch (err) {
     console.log(err)
