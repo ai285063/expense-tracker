@@ -7,9 +7,10 @@ const Record = require('../../models/record')
 const { validateRecord } = require('../../middleware/validator')
 
 router.get('/new', (req, res) => {
+  const dateNow = new Date().toISOString().substring(0, 10)
   Category.find()
     .lean()
-    .then(results => res.render('new', { categories: results }))
+    .then(results => res.render('new', { categories: results, dateNow }))
 })
 
 router.post('/', async (req, res) => {
