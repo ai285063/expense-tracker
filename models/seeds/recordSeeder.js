@@ -9,8 +9,8 @@ const db = require('../../config/mongoose')
 const recordsData = require('./records.json')
 
 const SEED_USER = {
-  name: 'user1',
-  email: 'user1@example.com',
+  name: 'example',
+  email: 'example@example.com',
   password: '12345678'
 }
 
