@@ -14,10 +14,10 @@
 </div>
 {{/if}}
 
-{{#if errors}}
-{{#each errors}}
+{{#if error_msg}}
+{{#each error_msg}}
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-  {{ this.message }}
+  {{ this.msg }}
   <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
   </button>
 </div>

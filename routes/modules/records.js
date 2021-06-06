@@ -13,16 +13,17 @@ router.get('/new', (req, res) => {
     .then(results => res.render('new', { categories: results, dateNow }))
 })
 
-router.post('/', async (req, res) => {
-  // const errors = validationResult(req)
-  // if (!errors.isEmpty()) {
-  //   const categories = await Category.find().lean()
-  //   return res.status(400).render('new', { categories, newRecord, errorMsg: errors.array() })
-  // }
+router.post('/', validateRecord, async (req, res) => {
+  const errorResults = validationResult(req)
+  const newRecord = req.body
+  newRecord.userId = req.user._id
+  if (!errorResults.isEmpty()) {
+    const categories = await Category.find().lean()
+    res.status(400)
+    return res.render('new', { categories, newRecord, error_msg: errorResults.errors })
+  }
   try {
-    const userId = req.user._id
-    const newRecord = req.body
-    await Record.create(Object.assign(newRecord, { userId }))
+    await Record.create(newRecord)
     return res.redirect('/')
   } catch (err) {
     console.log(err)
@@ -41,11 +42,19 @@ router.get('/:id/edit', async (req, res) => {
   }
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', validateRecord, async (req, res) => {
+  const userId = req.user._id
+  const _id = req.params.id
+  const edited = req.body
+  edited.userId = userId
+  edited._id = _id
+  const errorResults = validationResult(req)
+  if (!errorResults.isEmpty()) {
+    const categories = await Category.find().lean()
+    res.status(400)
+    return res.render('edit', { categories, record: edited, error_msg: errorResults.errors })
+  }
   try {
-    const userId = req.user._id
-    const _id = req.params.id
-    const edited = req.body
     await Record.findOne({ _id, userId })
       .then(record => {
         record = Object.assign(record, edited)

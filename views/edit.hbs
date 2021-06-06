@@ -6,24 +6,25 @@
 
   </div>
   <div class="w-50 mx-auto" id="data-panel">
+    {{> message}}
     <p>* 所有項目皆為必填</p>
     <form action="/records/{{record._id}}?_method=PUT" method="POST">
       <div class="form-group mb-3">
         <label for="name">名稱：</label>
-        <input type="text" id="name" name="name" class="form-control" value="{{record.name}}" placeholder="請輸入支出名稱" required>
+        <input type="text" id="name" name="name" class="form-control" value="{{record.name}}" placeholder="請輸入支出名稱">
       </div>
       <div class="form-group mb-3">
         <label for="merchant">店家：</label>
         <input type="text" id="merchant" name="merchant" class="form-control" value="{{record.merchant}}"
-          placeholder="請輸入支出店家" required>
+          placeholder="請輸入支出店家">
       </div>
       <div class="form-group mb-3">
         <label for="date">日期：</label>
-        <input type="date" id="date" name="date" class="form-control" value="{{record.date}}" placeholder="請輸入支出日期" required>
+        <input type="date" id="date" name="date" class="form-control" value="{{record.date}}" placeholder="請輸入支出日期">
       </div>
       <div class="form-group mb-3">
         <label for="category">類別：</label>
-        <select name="category" id="category" class="form-select" required>
+        <select name="category" id="category" class="form-select">
           <option value="" selected disabled hidden>選擇類別</option>
           {{#forEach categories}}
           <option value="{{name}}" {{#eq name ../record.category}}selected{{/eq}} >{{name}}</option>
@@ -32,7 +33,7 @@
       </div>
       <div class="form-group mb-3">
         <label for="amount">金額：</label>
-        <input type="text" id="amount" name="amount" class="form-control" value="{{record.amount}}" placeholder="請輸入支出金額" required>
+        <input type="text" id="amount" name="amount" class="form-control" value="{{record.amount}}" placeholder="請輸入支出金額">
       </div>
       <div class="row">
         <button type="submit" class="col-6 col-sm-3 mx-auto btn btn-primary mt-3">修改支出</button>

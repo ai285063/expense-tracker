@@ -2,8 +2,10 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
 const passport = require('passport')
+const { validationResult } = require('express-validator')
 
 const User = require('../../models/user')
+const { validateRegister } = require('../../middleware/validator')
 
 router.get('/login', (req, res) => {
   res.render('login')
@@ -18,30 +20,27 @@ router.get('/register', (req, res) => {
   res.render('register')
 })
 
-router.post('/register', (req, res) => {
+router.post('/register', validateRegister, async (req, res) => {
   const { name, email, password, confirmPassword } = req.body
-  User.findOne({ email }).then(user => {
-    if (user) {
-      console.log('User already exists.')
-      res.render('register', {
-        name,
-        email,
-        password,
-        confirmPassword
-      })
-    } else {
-      return bcrypt
-        .genSalt(10)
-        .then(salt => bcrypt.hash(password, salt))
-        .then(hash => User.create({
-          name,
-          email,
-          password: hash
-        }))
-        .then(() => res.redirect('/'))
-        .catch(err => console.log(err))
-    }
-  })
+  const errorResults = validationResult(req)
+  if (!errorResults.isEmpty()) {
+    res.status(400)
+    return res.render('register', {
+      name,
+      email,
+      password,
+      confirmPassword,
+      error_msg: errorResults.errors
+    })
+  }
+  try {
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(password, salt)
+    await User.create({ name, email, password: hash })
+    return res.redirect('/')
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 router.get('/logout', (req, res) => {
