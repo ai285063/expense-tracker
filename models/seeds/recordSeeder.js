@@ -1,46 +1,36 @@
+const bcrypt = require('bcryptjs')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const Record = require('../record')
+const User = require('../user')
 const db = require('../../config/mongoose')
-const data = require('./records.json')
+const recordsData = require('./records.json')
+
+const SEED_USER = {
+  name: 'user1',
+  email: 'user1@example.com',
+  password: '12345678'
+}
 
 db.once('open', async () => {
   try {
-    for (const item of data) {
-      await Record.create(item)
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(SEED_USER.password, salt)
+    const user = await User.create({
+      name: SEED_USER.name,
+      email: SEED_USER.email,
+      password: hash
+    })
+    const { _id: userId } = user
+    for (const record of recordsData) {
+      await Record.create(Object.assign(record, { userId }))
     }
-    console.log('Records seeder load done.')
+    console.log(`${SEED_USER.name} Seeder done.`)
+    console.log('Records Seeder load done.')
     process.exit()
   } catch (err) {
     console.log(err)
   }
-  // return Promise.all(Array.from(
-  //   { length: data.length }, (_, i) => {
-  //     return Category.findOne({ name: data[i].category })
-  //       .lean()
-  //       .then(obj => {
-  //         return Record.create({
-  //           name: data[i].name,
-  //           category: obj._id,
-  //           date: data[i].date,
-  //           amount: data[i].amount,
-  //           merchant: data[i].merchant
-  //         })
-  //       })
-  //       .then(() => {
-  //         console.log('Records seeder load done.')
-  //         process.exit()
-  //       })
-  //       .catch((err) => {
-  //         console.log(err)
-  //       })
-  //   }
-  // ))
-// try {
-//   for (const records of data) {
-//     await Record.create(records)
-//   }
-//   console.log('Records seeder load done.')
-//   process.exit()
-// } catch (err) {
-//   console.log(err)
-// }
 })

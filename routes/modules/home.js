@@ -12,7 +12,8 @@ router.get('/', async (req, res) => {
     let totalAmount = 0
     const [categories, records] = await Promise.all([Category.find().lean(),
       Record.aggregate([
-        { $match: { $and: [getCategory(categoryChosen), getMonth(monthChosen), { userId }] } }
+        { $match: { $and: [getCategory(categoryChosen), getMonth(monthChosen), { userId }] } },
+        { $sort: { date: -1 } }
       ])
     ])
     const dates = []
